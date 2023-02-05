@@ -1,6 +1,5 @@
 package com.learnreactiveprogramming.service;
 
-import java.util.List;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -11,7 +10,7 @@ public class FluxAndMonoGeneratorService {
 
     public Flux<String> namesFlux() {
 
-        return Flux.fromIterable(List.of("John", "Ahmed", "Dilip")).log();
+        return Flux.just("John", "Ahmed", "Dilip").log();
     }
 
     public Mono<String> nameMono() {
