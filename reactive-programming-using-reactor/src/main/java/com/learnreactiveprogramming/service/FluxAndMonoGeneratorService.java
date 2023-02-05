@@ -11,7 +11,7 @@ public class FluxAndMonoGeneratorService {
 
     public Flux<String> namesFlux() {
 
-        return Flux.fromIterable(List.of("John", "Ahmed", "Dilip"));
+        return Flux.fromIterable(List.of("John", "Ahmed", "Dilip")).log();
     }
 
     public Mono<String> nameMono() {
@@ -23,11 +23,11 @@ public class FluxAndMonoGeneratorService {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);
         final var service = new FluxAndMonoGeneratorService();
-        log.trace("Subscribing to namesFlux.");
+        log.debug("Subscribing to namesFlux.");
         service.namesFlux().subscribe(logger);
-        log.trace("namesFlux consumed.");
-        log.trace("Subscribing to nameMono.");
+        log.debug("namesFlux consumed.");
+        log.debug("Subscribing to nameMono.");
         service.nameMono().subscribe(logger);
-        log.trace("nameMono consumed.");
+        log.debug("nameMono consumed.");
     }
 }
