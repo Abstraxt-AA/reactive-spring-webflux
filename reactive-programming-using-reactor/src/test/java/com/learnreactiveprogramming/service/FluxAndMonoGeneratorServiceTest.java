@@ -25,4 +25,13 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("JOHN", "AHMED", "DILIP")
                 .verifyComplete();
     }
+
+    @Test
+    void immutableNamesFlux() {
+
+        final var mapNamesFlux = service.immutableNamesFlux();
+        StepVerifier.create(mapNamesFlux)
+                .expectNext("John", "Ahmed", "Dilip")
+                .verifyComplete();
+    }
 }

@@ -23,6 +23,13 @@ public class FluxAndMonoGeneratorService {
         return namesFlux().map(String::toUpperCase).log();
     }
 
+    public Flux<String> immutableNamesFlux() {
+
+        final var namesFlux = namesFlux();
+        namesFlux.map(String::toUpperCase);
+        return namesFlux;
+    }
+
     public static void main(String[] args) {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);
