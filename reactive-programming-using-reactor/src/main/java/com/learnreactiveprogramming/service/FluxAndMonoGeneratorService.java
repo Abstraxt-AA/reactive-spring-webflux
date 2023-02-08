@@ -1,6 +1,7 @@
 package com.learnreactiveprogramming.service;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
@@ -46,14 +47,14 @@ public class FluxAndMonoGeneratorService {
     public Flux<String> flatMapNamesFlux(int length) {
         return namesFlux()
                 .filter(name -> name != null && name.length() > length)
-                .flatMap(string -> Flux.fromArray(string.split("")))
+                .flatMap(string -> Flux.just(string.split("")))
                 .log();
     }
 
     public Flux<String> delayNamesFlux(int length) {
         return namesFlux()
                 .filter(name -> name != null && name.length() > length)
-                .flatMap(string -> Flux.fromArray(string.split(""))
+                .flatMap(string -> Flux.just(string.split(""))
                         .delayElements(Duration.ofMillis(random.nextInt(1000))))
                 .log();
     }
@@ -61,8 +62,15 @@ public class FluxAndMonoGeneratorService {
     public Flux<String> concatMapNamesFlux(int length) {
         return namesFlux()
                 .filter(name -> name != null && name.length() > length)
-                .concatMap(string -> Flux.fromArray(string.split(""))
+                .concatMap(string -> Flux.just(string.split(""))
                         .delayElements(Duration.ofMillis(random.nextInt(1000))))
+                .log();
+    }
+
+    public Mono<List<String>> nameMono(int length) {
+        return Mono.from(namesFlux())
+                .filter(name -> name != null && name.length() > length)
+                .flatMap(string -> Mono.just(List.of(string.split(""))))
                 .log();
     }
 
