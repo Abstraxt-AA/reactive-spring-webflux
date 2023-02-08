@@ -1,5 +1,7 @@
 package com.learnreactiveprogramming.service;
 
+import java.time.Duration;
+import java.util.Random;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -7,6 +9,8 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 public class FluxAndMonoGeneratorService {
+
+    private final Random random = new Random();
 
     public Flux<String> namesFlux() {
 
@@ -42,6 +46,14 @@ public class FluxAndMonoGeneratorService {
         return namesFlux()
                 .filter(name -> name != null && name.length() > length)
                 .flatMap(string -> Flux.fromArray(string.split("")))
+                .log();
+    }
+
+    public Flux<String> delayNamesFlux(int length) {
+        return namesFlux()
+                .filter(name -> name != null && name.length() > length)
+                .flatMap(string -> Flux.fromArray(string.split(""))
+                        .delayElements(Duration.ofMillis(random.nextInt(1000))))
                 .log();
     }
 

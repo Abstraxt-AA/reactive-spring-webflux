@@ -52,4 +52,13 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("A", "h", "m", "e", "d", "D", "i", "l", "i", "p")
                 .verifyComplete();
     }
+
+    @Test
+    void delayNamesFlux() {
+
+        final var mapNamesFlux = service.delayNamesFlux(4);
+        StepVerifier.create(mapNamesFlux)
+                .expectNextCount(10)
+                .verifyComplete();
+    }
 }
