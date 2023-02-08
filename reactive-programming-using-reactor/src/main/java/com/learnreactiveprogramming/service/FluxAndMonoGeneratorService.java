@@ -30,6 +30,7 @@ public class FluxAndMonoGeneratorService {
     public Flux<String> immutableNamesFlux() {
 
         final var namesFlux = namesFlux();
+        //noinspection ReactiveStreamsUnusedPublisher
         namesFlux.map(String::toUpperCase);
         return namesFlux;
     }
