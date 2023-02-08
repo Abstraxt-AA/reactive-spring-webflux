@@ -18,6 +18,11 @@ public class FluxAndMonoGeneratorService {
         return Mono.just("Ahmed");
     }
 
+    public Flux<String> mapNamesFlux() {
+
+        return namesFlux().map(String::toUpperCase).log();
+    }
+
     public static void main(String[] args) {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);
