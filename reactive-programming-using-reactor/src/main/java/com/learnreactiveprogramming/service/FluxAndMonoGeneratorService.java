@@ -57,6 +57,14 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Flux<String> concatMapNamesFlux(int length) {
+        return namesFlux()
+                .filter(name -> name != null && name.length() > length)
+                .concatMap(string -> Flux.fromArray(string.split(""))
+                        .delayElements(Duration.ofMillis(random.nextInt(1000))))
+                .log();
+    }
+
     public static void main(String[] args) {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);
