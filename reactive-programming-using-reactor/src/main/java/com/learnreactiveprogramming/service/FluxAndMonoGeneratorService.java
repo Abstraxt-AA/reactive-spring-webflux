@@ -38,6 +38,13 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Flux<String> flatMapNamesFlux(int length) {
+        return namesFlux()
+                .filter(name -> name != null && name.length() > length)
+                .flatMap(string -> Flux.fromArray(string.split("")))
+                .log();
+    }
+
     public static void main(String[] args) {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);
