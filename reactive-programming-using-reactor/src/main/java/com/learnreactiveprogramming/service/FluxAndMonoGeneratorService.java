@@ -30,6 +30,14 @@ public class FluxAndMonoGeneratorService {
         return namesFlux;
     }
 
+    public Flux<String> filterNamesFlux(int length) {
+
+        return namesFlux()
+                .filter(name -> name != null && name.length() > length)
+                .map(name -> name.length() + " - " + name)
+                .log();
+    }
+
     public static void main(String[] args) {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);
