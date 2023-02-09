@@ -15,22 +15,18 @@ public class FluxAndMonoGeneratorService {
     private final Random random = new Random();
 
     public Flux<String> namesFlux() {
-
         return Flux.just("John", "Ahmed", "Dilip").log();
     }
 
     public Mono<String> nameMono() {
-
         return Mono.just("Ahmed");
     }
 
     public Flux<String> mapNamesFlux() {
-
         return namesFlux().map(String::toUpperCase).log();
     }
 
     public Flux<String> immutableNamesFlux() {
-
         final var namesFlux = namesFlux();
         //noinspection ReactiveStreamsUnusedPublisher
         namesFlux.map(String::toUpperCase);
@@ -38,7 +34,6 @@ public class FluxAndMonoGeneratorService {
     }
 
     public Flux<String> filterNamesFlux(int length) {
-
         return namesFlux()
                 .filter(name -> name != null && name.length() > length)
                 .map(name -> name.length() + " - " + name)
@@ -97,8 +92,25 @@ public class FluxAndMonoGeneratorService {
         return namesFlux().transform(transformer).switchIfEmpty(defaultFlux).log();
     }
 
-    public static void main(String[] args) {
+    public Flux<String> exploreConcat() {
+        final var abcFlux = Flux.just("A", "B", "C");
+        final var defFlux = Flux.just("D", "E", "F");
+        return Flux.concat(abcFlux, defFlux).log();
+    }
 
+    public Flux<String> exploreConcatWith() {
+        final var abcFlux = Flux.just("A", "B", "C");
+        final var defFlux = Flux.just("D", "E", "F");
+        return abcFlux.concatWith(defFlux);
+    }
+
+    public Flux<String> exploreConcatWithMono() {
+        final var aMono = Mono.just("A");
+        final var bMono = Mono.just("B");
+        return aMono.concatWith(bMono);
+    }
+
+    public static void main(String[] args) {
         final Consumer<String> logger = name -> log.info("Name is: " + name);
         final var service = new FluxAndMonoGeneratorService();
         log.debug("Subscribing to namesFlux.");

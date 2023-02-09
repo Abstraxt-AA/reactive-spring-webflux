@@ -10,7 +10,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void namesFlux() {
-
         final var namesFlux = service.namesFlux();
         StepVerifier.create(namesFlux)
                 .expectNext("John")
@@ -20,7 +19,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void mapNamesFlux() {
-
         final var mapNamesFlux = service.mapNamesFlux();
         StepVerifier.create(mapNamesFlux)
                 .expectNext("JOHN", "AHMED", "DILIP")
@@ -29,7 +27,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void immutableNamesFlux() {
-
         final var mapNamesFlux = service.immutableNamesFlux();
         StepVerifier.create(mapNamesFlux)
                 .expectNext("John", "Ahmed", "Dilip")
@@ -38,7 +35,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void filterNamesFlux() {
-
         final var mapNamesFlux = service.filterNamesFlux(4);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("5 - Ahmed", "5 - Dilip")
@@ -47,7 +43,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void flatMapNamesFlux() {
-
         final var mapNamesFlux = service.flatMapNamesFlux(4);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("A", "h", "m", "e", "d", "D", "i", "l", "i", "p")
@@ -56,7 +51,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void delayNamesFlux() {
-
         final var mapNamesFlux = service.delayNamesFlux(4);
         StepVerifier.create(mapNamesFlux)
                 .expectNextCount(10)
@@ -65,7 +59,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void concatMapNamesFlux() {
-
         final var mapNamesFlux = service.concatMapNamesFlux(4);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("A", "h", "m", "e", "d", "D", "i", "l", "i", "p")
@@ -74,7 +67,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void nameMono() {
-
         final var mapNamesFlux = service.nameMono(3);
         StepVerifier.create(mapNamesFlux)
                 .expectNext(List.of("J", "o", "h", "n"))
@@ -83,7 +75,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void flatMapManyNameMono() {
-
         final var mapNamesFlux = service.flatMapManyNameMono(3);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("J", "o", "h", "n")
@@ -92,7 +83,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void mapFilterFlattenNamesFlux() {
-
         final var mapNamesFlux = service.mapFilterFlattenNamesFlux(4);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("A", "H", "M", "E", "D", "D", "I", "L", "I", "P")
@@ -101,7 +91,6 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void mapFilterFlattenNamesFlux_DefaultIfEmpty() {
-
         final var mapNamesFlux = service.mapFilterFlattenNamesFlux(6);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("Φ")
@@ -110,10 +99,33 @@ class FluxAndMonoGeneratorServiceTest {
 
     @Test
     void mapFilterFlattenSwitchIfEmptyNamesFlux() {
-
         final var mapNamesFlux = service.mapFilterFlattenSwitchIfEmptyNamesFlux(6);
         StepVerifier.create(mapNamesFlux)
                 .expectNext("D", "E", "F", "A", "U", "L", "T")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreConcat() {
+        final var flux = service.exploreConcat();
+        StepVerifier.create(flux)
+                .expectNext("A", "B", "C", "D", "E", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreConcatWith() {
+        final var flux = service.exploreConcatWith();
+        StepVerifier.create(flux)
+                .expectNext("A", "B", "C", "D", "E", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreConcatWithMono() {
+        final var flux = service.exploreConcatWithMono();
+        StepVerifier.create(flux)
+                .expectNext("A", "B")
                 .verifyComplete();
     }
 }
