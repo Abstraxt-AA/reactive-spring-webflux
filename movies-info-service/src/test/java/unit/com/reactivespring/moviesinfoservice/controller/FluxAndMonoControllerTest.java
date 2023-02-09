@@ -1,5 +1,7 @@
 package com.reactivespring.moviesinfoservice.controller;
 
+import static org.springframework.test.util.AssertionErrors.*;
+
 import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +57,23 @@ class FluxAndMonoControllerTest {
                     final var body = result.getResponseBody();
                     assert (Objects.requireNonNull(body).size()) == 3;
                     for (int i = 0; i < 3; i++) {
-                        assert body.get(i) == i + 1;
+                        assertEquals("Not equal", i + 1, body.get(i));
                     }
                 });
     }
 
     @Test
     void getIntMono() {
+        client.get()
+                .uri("/mono")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(Integer.class)
+                .consumeWith(result -> {
+                    final var body = result.getResponseBody();
+                    assertEquals("Not equal", 1, body);
+                });
     }
 
     @Test
