@@ -160,4 +160,36 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("A", "B", "C", "D", "E", "F")
                 .verifyComplete();
     }
+
+    @Test
+    void exploreZip() {
+        final var flux = service.exploreZip();
+        StepVerifier.create(flux)
+                .expectNext("AD", "BE", "CF")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreZipFour() {
+        final var flux = service.exploreZipFour();
+        StepVerifier.create(flux)
+                .expectNext("AD14", "BE25", "CF36")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreZipWith() {
+        final var flux = service.exploreZipWith();
+        StepVerifier.create(flux)
+                .expectNext("AD", "BE", "CF")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreMonoZipWith() {
+        final var flux = service.exploreMonoZipWith();
+        StepVerifier.create(flux)
+                .expectNext("AB")
+                .verifyComplete();
+    }
 }

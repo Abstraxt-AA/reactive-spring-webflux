@@ -134,6 +134,33 @@ public class FluxAndMonoGeneratorService {
         return Flux.mergeSequential(abcFlux, defFlux).log();
     }
 
+    public Flux<String> exploreZip() {
+        final var abcFlux = Flux.just("A", "B", "C");
+        final var defFlux = Flux.just("D", "E", "F");
+        return Flux.zip(abcFlux, defFlux, (first, second) -> first + second).log();
+    }
+
+    public Flux<String> exploreZipFour() {
+        final var abcFlux = Flux.just("A", "B", "C");
+        final var defFlux = Flux.just("D", "E", "F");
+        final var oneTwoThreeFlux = Flux.just(1, 2, 3);
+        final var fourFiveSixFlux = Flux.just(4, 5, 6);
+        return Flux.zip(abcFlux, defFlux, oneTwoThreeFlux, fourFiveSixFlux)
+                .map(tuple -> tuple.getT1() + tuple.getT2() + tuple.getT3() + tuple.getT4()).log();
+    }
+
+    public Flux<String> exploreZipWith() {
+        final var abcFlux = Flux.just("A", "B", "C");
+        final var defFlux = Flux.just("D", "E", "F");
+        return abcFlux.zipWith(defFlux, (first, second) -> first + second).log();
+    }
+
+    public Mono<String> exploreMonoZipWith() {
+        final var aMono = Mono.just("A");
+        final var bMono = Mono.just("B");
+        return aMono.zipWith(bMono, (first, second) -> first + second).log();
+    }
+
     public static void main(String[] args) {
         final Consumer<String> logger = name -> log.info("Name is: " + name);
         final var service = new FluxAndMonoGeneratorService();
