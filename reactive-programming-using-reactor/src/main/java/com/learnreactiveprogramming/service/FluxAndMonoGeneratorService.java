@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -79,6 +80,13 @@ public class FluxAndMonoGeneratorService {
                 .map(list -> list.toArray(String[]::new))
                 .flatMapMany(Flux::just)
                 .log();
+    }
+
+    public Flux<String> mapFilterFlattenNamesFlux(int length) {
+        final UnaryOperator<Flux<String>> transformer = flux -> flux.map(String::toUpperCase)
+                .filter(name -> name.length() > length)
+                .flatMap(name -> Flux.just(name.split("")));
+        return namesFlux().transform(transformer).log();
     }
 
     public static void main(String[] args) {
