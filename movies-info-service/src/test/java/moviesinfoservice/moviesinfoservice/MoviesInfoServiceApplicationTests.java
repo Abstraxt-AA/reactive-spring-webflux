@@ -9,5 +9,4 @@ class MoviesInfoServiceApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
