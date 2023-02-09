@@ -86,7 +86,15 @@ public class FluxAndMonoGeneratorService {
         final UnaryOperator<Flux<String>> transformer = flux -> flux.map(String::toUpperCase)
                 .filter(name -> name.length() > length)
                 .flatMap(name -> Flux.just(name.split("")));
-        return namesFlux().transform(transformer).log();
+        return namesFlux().transform(transformer).defaultIfEmpty("Φ").log();
+    }
+
+    public Flux<String> mapFilterFlattenSwitchIfEmptyNamesFlux(int length) {
+        final UnaryOperator<Flux<String>> transformer = flux -> flux.map(String::toUpperCase)
+                .filter(name -> name.length() > length)
+                .flatMap(name -> Flux.just(name.split("")));
+        final var defaultFlux = Flux.just("default").transform(transformer);
+        return namesFlux().transform(transformer).switchIfEmpty(defaultFlux).log();
     }
 
     public static void main(String[] args) {

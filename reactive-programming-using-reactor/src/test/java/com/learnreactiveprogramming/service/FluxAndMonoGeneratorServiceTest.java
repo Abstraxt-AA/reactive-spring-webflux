@@ -98,4 +98,22 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("A", "H", "M", "E", "D", "D", "I", "L", "I", "P")
                 .verifyComplete();
     }
+
+    @Test
+    void mapFilterFlattenNamesFlux_DefaultIfEmpty() {
+
+        final var mapNamesFlux = service.mapFilterFlattenNamesFlux(6);
+        StepVerifier.create(mapNamesFlux)
+                .expectNext("Φ")
+                .verifyComplete();
+    }
+
+    @Test
+    void mapFilterFlattenSwitchIfEmptyNamesFlux() {
+
+        final var mapNamesFlux = service.mapFilterFlattenSwitchIfEmptyNamesFlux(6);
+        StepVerifier.create(mapNamesFlux)
+                .expectNext("D", "E", "F", "A", "U", "L", "T")
+                .verifyComplete();
+    }
 }
