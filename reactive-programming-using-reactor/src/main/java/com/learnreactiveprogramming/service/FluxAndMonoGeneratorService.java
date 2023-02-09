@@ -74,6 +74,13 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Flux<String> flatMapManyNameMono(int length) {
+        return nameMono(length)
+                .map(list -> list.toArray(String[]::new))
+                .flatMapMany(Flux::just)
+                .log();
+    }
+
     public static void main(String[] args) {
 
         final Consumer<String> logger = name -> log.info("Name is: " + name);

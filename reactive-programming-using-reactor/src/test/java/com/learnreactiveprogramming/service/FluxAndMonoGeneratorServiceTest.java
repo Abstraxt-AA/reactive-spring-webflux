@@ -80,4 +80,13 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext(List.of("J", "o", "h", "n"))
                 .verifyComplete();
     }
+
+    @Test
+    void flatMapManyNameMono() {
+
+        final var mapNamesFlux = service.flatMapManyNameMono(3);
+        StepVerifier.create(mapNamesFlux)
+                .expectNext("J", "o", "h", "n")
+                .verifyComplete();
+    }
 }
