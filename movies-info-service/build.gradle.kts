@@ -32,3 +32,7 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+sourceSets.getByName("test") {
+	    java.setSrcDirs(listOf("src/test/java/unit", "src/test/java/intg"))
+}

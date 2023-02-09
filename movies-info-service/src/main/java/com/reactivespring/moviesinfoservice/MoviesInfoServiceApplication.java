@@ -1,4 +1,4 @@
-package moviesinfoservice;
+package com.reactivespring.moviesinfoservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

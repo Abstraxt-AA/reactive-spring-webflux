@@ -1,4 +1,4 @@
-package moviesinfoservice.controller;
+package com.reactivespring.moviesinfoservice.controller;
 
 import java.time.Duration;
 import org.springframework.http.MediaType;
