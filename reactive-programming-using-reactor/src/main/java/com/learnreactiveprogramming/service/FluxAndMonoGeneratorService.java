@@ -110,6 +110,24 @@ public class FluxAndMonoGeneratorService {
         return aMono.concatWith(bMono);
     }
 
+    public Flux<String> exploreMergeWith() {
+        final var abcFlux = Flux.just("A", "B", "C").delayElements(Duration.ofMillis(100));
+        final var defFlux = Flux.just("D", "E", "F").delayElements(Duration.ofMillis(110));
+        return abcFlux.mergeWith(defFlux);
+    }
+
+    public Flux<String> exploreMergeWithMono() {
+        final var aMono = Mono.just("A");
+        final var bMono = Mono.just("B");
+        return aMono.mergeWith(bMono);
+    }
+
+    public Flux<String> exploreMerge() {
+        final var abcFlux = Flux.just("A", "B", "C").delayElements(Duration.ofMillis(100));
+        final var defFlux = Flux.just("D", "E", "F").delayElements(Duration.ofMillis(110));
+        return Flux.merge(abcFlux, defFlux).log();
+    }
+
     public static void main(String[] args) {
         final Consumer<String> logger = name -> log.info("Name is: " + name);
         final var service = new FluxAndMonoGeneratorService();
