@@ -45,7 +45,7 @@ class FluxAndMonoControllerTest {
     @Test
     void getIntFlux_ThirdApproach() {
 
-        final var response = client.get()
+        client.get()
                 .uri("/flux")
                 .exchange()
                 .expectStatus()
