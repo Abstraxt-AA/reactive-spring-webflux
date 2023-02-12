@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - dev
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      username: root
+      password: example
+      database: dev
