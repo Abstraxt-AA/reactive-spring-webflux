@@ -1,5 +1,7 @@
 package com.reactivespring.moviesinfoservice.repository;
 
+import static org.springframework.test.util.AssertionErrors.assertEquals;
+
 import com.reactivespring.moviesinfoservice.domain.MovieInfo;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,6 +49,14 @@ class MovieInfoRepositoryIntegrationTest {
         final var moviesInfoFlux = repository.findAll().log();
         StepVerifier.create(moviesInfoFlux)
                 .expectNextCount(3)
+                .verifyComplete();
+    }
+
+    @Test
+    void findById() {
+        final var moviesInfoMono = repository.findById("abc").log();
+        StepVerifier.create(moviesInfoMono)
+                .assertNext(movieInfo -> assertEquals("Not equal", "Dark Knight Rises", movieInfo.getName()))
                 .verifyComplete();
     }
 }
