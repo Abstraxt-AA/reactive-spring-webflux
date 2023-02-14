@@ -1,6 +1,7 @@
 package com.reactivespring.moviesinfoservice.repository;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 import com.reactivespring.moviesinfoservice.domain.MovieInfo;
 import java.time.LocalDate;
@@ -57,6 +58,20 @@ class MovieInfoRepositoryIntegrationTest {
         final var moviesInfoMono = repository.findById("abc").log();
         StepVerifier.create(moviesInfoMono)
                 .assertNext(movieInfo -> assertEquals("Not equal", "Dark Knight Rises", movieInfo.getName()))
+                .verifyComplete();
+    }
+
+    @Test
+    void save() {
+        final var info = new MovieInfo(null, "Batman Begins1", 2005, List.of("Chirstian Bale", "Michael Cane"),
+                LocalDate.parse("2005-06-15"));
+
+        final var moviesInfoMono = repository.save(info).log();
+        StepVerifier.create(moviesInfoMono)
+                .assertNext(movieInfo -> {
+                    assertNotNull("Null", movieInfo.getMovieInfoId());
+                    assertEquals("Not equal", "Batman Begins1", movieInfo.getName());
+                })
                 .verifyComplete();
     }
 }
