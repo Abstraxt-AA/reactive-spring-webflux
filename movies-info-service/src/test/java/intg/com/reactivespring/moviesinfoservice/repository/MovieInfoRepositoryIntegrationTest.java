@@ -6,6 +6,7 @@ import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import com.reactivespring.moviesinfoservice.domain.MovieInfo;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,6 +73,16 @@ class MovieInfoRepositoryIntegrationTest {
                     assertNotNull("Null", movieInfo.getMovieInfoId());
                     assertEquals("Not equal", "Batman Begins1", movieInfo.getName());
                 })
+                .verifyComplete();
+    }
+
+    @Test
+    void update() {
+        final var moviesInfo = repository.findById("abc").log().block();
+        Objects.requireNonNull(moviesInfo).setYear(2021);
+        final var moviesInfoMono = repository.save(moviesInfo).log();
+        StepVerifier.create(moviesInfoMono)
+                .assertNext(movieInfo -> assertEquals("Not equal", 2021, movieInfo.getYear()))
                 .verifyComplete();
     }
 }
