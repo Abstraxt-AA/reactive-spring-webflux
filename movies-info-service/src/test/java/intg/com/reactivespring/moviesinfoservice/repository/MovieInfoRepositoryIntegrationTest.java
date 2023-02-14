@@ -85,4 +85,13 @@ class MovieInfoRepositoryIntegrationTest {
                 .assertNext(movieInfo -> assertEquals("Not equal", 2021, movieInfo.getYear()))
                 .verifyComplete();
     }
+
+    @Test
+    void delete() {
+        repository.deleteById("abc").block();
+        final var moviesInfoFlux = repository.findAll().log();
+        StepVerifier.create(moviesInfoFlux)
+                .expectNextCount(2)
+                .verifyComplete();
+    }
 }
