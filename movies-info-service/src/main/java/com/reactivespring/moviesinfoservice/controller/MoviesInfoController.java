@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,5 +39,11 @@ public class MoviesInfoController {
     @GetMapping("/movie-infos/{id}")
     public Mono<MovieInfo> getMovieInfoById(@PathVariable String id) {
         return moviesInfoService.getMovieInfoById(id);
+    }
+
+    @PutMapping("/movie-infos/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<MovieInfo> updateMovieInfo(@PathVariable String id, @RequestBody CreateMovieInfoRequest movieInfo) {
+        return moviesInfoService.updateMovieInfo(id, moviesInfoMapper.mapToMovieInfo(movieInfo));
     }
 }

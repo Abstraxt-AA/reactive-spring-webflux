@@ -91,4 +91,23 @@ class MoviesInfoControllerTest {
                     assertEquals("Dark Knight Rises", movieInfo.getName());
                 });
     }
+
+    @Test
+    void updateMovieInfo() {
+        webTestClient
+                .put()
+                .uri(MOVIES_INFO_URL + "/abc")
+                .bodyValue(new MovieInfo(null, "Dark Knight Rises1", 2012, List.of("Chirstian Bale", "Michael Cane"),
+                        LocalDate.parse("2012-07-20")))
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(MovieInfo.class)
+                .consumeWith(result -> {
+                    final var updatedMovieInfo = result.getResponseBody();
+                    assert updatedMovieInfo != null;
+                    assert updatedMovieInfo.getMovieInfoId() != null;
+                    assertEquals("Dark Knight Rises1", updatedMovieInfo.getName());
+                });
+    }
 }
