@@ -6,6 +6,7 @@ import com.reactivespring.moviesinfoservice.mapper.MoviesInfoMapper;
 import com.reactivespring.moviesinfoservice.service.MoviesInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,8 +43,13 @@ public class MoviesInfoController {
     }
 
     @PutMapping("/movie-infos/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
     public Mono<MovieInfo> updateMovieInfo(@PathVariable String id, @RequestBody CreateMovieInfoRequest movieInfo) {
         return moviesInfoService.updateMovieInfo(id, moviesInfoMapper.mapToMovieInfo(movieInfo));
+    }
+
+    @DeleteMapping("/movie-infos/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteMovieInfo(@PathVariable String id) {
+        return moviesInfoService.deleteMovieInfo(id);
     }
 }

@@ -13,4 +13,6 @@ public interface MoviesInfoService {
     Mono<MovieInfo> getMovieInfoById(String id);
 
     Mono<MovieInfo> updateMovieInfo(String id, MovieInfo movieInfo);
+
+    Mono<Void> deleteMovieInfo(String id);
 }

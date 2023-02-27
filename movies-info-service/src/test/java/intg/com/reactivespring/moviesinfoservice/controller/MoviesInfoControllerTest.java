@@ -101,7 +101,7 @@ class MoviesInfoControllerTest {
                         LocalDate.parse("2012-07-20")))
                 .exchange()
                 .expectStatus()
-                .isCreated()
+                .is2xxSuccessful()
                 .expectBody(MovieInfo.class)
                 .consumeWith(result -> {
                     final var updatedMovieInfo = result.getResponseBody();
@@ -109,5 +109,25 @@ class MoviesInfoControllerTest {
                     assert updatedMovieInfo.getMovieInfoId() != null;
                     assertEquals("Dark Knight Rises1", updatedMovieInfo.getName());
                 });
+    }
+
+    @Test
+    void deleteMovieInfo() {
+        webTestClient
+                .delete()
+                .uri(MOVIES_INFO_URL + "/abc")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody()
+                .isEmpty();
+        webTestClient
+                .get()
+                .uri(MOVIES_INFO_URL)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBodyList(MovieInfo.class)
+                .hasSize(2);
     }
 }
