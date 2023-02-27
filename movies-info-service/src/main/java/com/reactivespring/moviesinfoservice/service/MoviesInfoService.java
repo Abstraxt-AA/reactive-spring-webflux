@@ -9,4 +9,6 @@ public interface MoviesInfoService {
     Mono<MovieInfo> addMovieInfo(MovieInfo movieInfo);
 
     Flux<MovieInfo> getAllMovieInfos();
+
+    Mono<MovieInfo> getMovieInfoById(String id);
 }

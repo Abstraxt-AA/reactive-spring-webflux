@@ -1,6 +1,6 @@
 package com.reactivespring.moviesinfoservice.repository;
 
-import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 import com.reactivespring.moviesinfoservice.domain.MovieInfo;
@@ -55,7 +55,7 @@ class MovieInfoRepositoryIntegrationTest {
     void findById() {
         final var moviesInfoMono = repository.findById("abc").log();
         StepVerifier.create(moviesInfoMono)
-                .assertNext(movieInfo -> assertEquals("Not equal", "Dark Knight Rises", movieInfo.getName()))
+                .assertNext(movieInfo -> assertEquals("Dark Knight Rises", movieInfo.getName()))
                 .verifyComplete();
     }
 
@@ -68,7 +68,7 @@ class MovieInfoRepositoryIntegrationTest {
         StepVerifier.create(moviesInfoMono)
                 .assertNext(movieInfo -> {
                     assertNotNull("Null", movieInfo.getMovieInfoId());
-                    assertEquals("Not equal", "Batman Begins1", movieInfo.getName());
+                    assertEquals("Batman Begins1", movieInfo.getName());
                 })
                 .verifyComplete();
     }
@@ -79,7 +79,7 @@ class MovieInfoRepositoryIntegrationTest {
         Objects.requireNonNull(moviesInfo).setYear(2021);
         final var moviesInfoMono = repository.save(moviesInfo).log();
         StepVerifier.create(moviesInfoMono)
-                .assertNext(movieInfo -> assertEquals("Not equal", 2021, movieInfo.getYear()))
+                .assertNext(movieInfo -> assertEquals(2021, movieInfo.getYear()))
                 .verifyComplete();
     }
 

@@ -23,4 +23,9 @@ public class MoviesInfoServiceImpl implements MoviesInfoService {
     public Flux<MovieInfo> getAllMovieInfos() {
         return movieInfoRepo.findAll();
     }
+
+    @Override
+    public Mono<MovieInfo> getMovieInfoById(String id) {
+        return movieInfoRepo.findById(id);
+    }
 }

@@ -1,5 +1,7 @@
 package com.reactivespring.moviesinfoservice.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.reactivespring.moviesinfoservice.domain.MovieInfo;
 import com.reactivespring.moviesinfoservice.repository.MovieInfoRepository;
 import java.time.LocalDate;
@@ -72,5 +74,21 @@ class MoviesInfoControllerTest {
                 .is2xxSuccessful()
                 .expectBodyList(MovieInfo.class)
                 .hasSize(3);
+    }
+
+    @Test
+    void getMovieInfoById() {
+        webTestClient
+                .get()
+                .uri(MOVIES_INFO_URL + "/abc")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(MovieInfo.class)
+                .consumeWith(result -> {
+                    final var movieInfo = result.getResponseBody();
+                    assert movieInfo != null;
+                    assertEquals("Dark Knight Rises", movieInfo.getName());
+                });
     }
 }
